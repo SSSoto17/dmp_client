@@ -1,37 +1,10 @@
 import Image from "next/image";
-
 import ImgMusic from "@/assets/img/erik-mclean-QzpgqElvSiA-unsplash.jpg";
 
+import FormFields from "./FormFields.json";
+import { SignUp as submit } from "../actions";
+
 export default function SignUp() {
-  const fields = [
-    {
-      name: "user_username",
-      label: "Username",
-      type: "text",
-      testValue: "sssoto",
-    },
-    {
-      name: "user_email",
-      label: "Email",
-      type: "email",
-      testValue: "sssoto@live.dk",
-    },
-    {
-      name: "user_password",
-      label: "Password",
-      type: "password",
-      testValue: "password",
-    },
-    {
-      name: "user_password_check",
-      label: "Confirm password",
-      type: "password",
-      testValue: "password",
-    },
-  ];
-
-  const submitUrl = process.env.SERVER_URL + "/auth/register";
-
   return (
     <main className="grid place-content-center place-items-center h-screen bg-linear-to-b from-amber-50 to-fuchsia-100">
       <section className="bg-white rounded-md overflow-clip grid grid-cols-2 mx-20 drop-shadow-xl">
@@ -46,8 +19,8 @@ export default function SignUp() {
               Sign Up
             </h1>
           </header>
-          <form action={submitUrl}>
-            {fields.map(({ name, label, type, testValue }, id) => {
+          <form action={submit}>
+            {FormFields.map(({ name, label, type, testValue }, id) => {
               return (
                 <div className="grid gap-y-1 py-1.5" key={id}>
                   <label className="font-medium text-slate-800" htmlFor={name}>

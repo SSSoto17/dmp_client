@@ -19,20 +19,16 @@ export function formatTrackProgress(duration, position) {
 
 // GENERATORS
 
-export function genBase64(id, secret) {
-  const credentials = `${id}:${secret}`;
+export function genBase64() {
+  const credentials = process.env.SPOTIFY_CLIENT_CREDENTIALS;
   const encoded = new Buffer.from(credentials).toString("base64");
 
   return `Basic ${encoded}`;
 }
 
 export function generateRandomString(length) {
-  let text = "";
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
+  const values = crypto.getRandomValues(new Uint8Array(length));
+  return values.reduce((acc, x) => acc + possible[x % possible.length], "");
 }

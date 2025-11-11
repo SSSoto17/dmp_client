@@ -9,21 +9,18 @@ export async function GET({ nextUrl: { searchParams } }) {
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
-  console.log("test");
+  // if (!code) {
+  //   const refresh_token = store.get("refresh_token")?.value;
 
-  if (!code) {
-    console.log("test w/code");
-    const refresh_token = store.get("refresh_token")?.value;
+  //   if (!refresh_token) redirect("/login");
 
-    if (!refresh_token) redirect("/login");
+  //   const response = await updateSession(refresh_token);
 
-    const response = await updateSession(refresh_token);
+  //   if (response?.error) redirect("/login");
 
-    if (response?.error) redirect("/login");
-
-    return new Response("Testing.");
-  }
-  console.log("test");
+  //   return new Response("Testing.");
+  // }
+  // console.log("test");
 
   if (searchParams.has("error"))
     return new Response("Unauthorized: Access denied.");
@@ -41,6 +38,17 @@ export async function GET({ nextUrl: { searchParams } }) {
 
   const { access_token, token_type, expires_in, refresh_token } =
     await accessToken(payload);
+
+  const url = `${process.env.SERVER_URL}/auth/token`;
+  const data = {
+    refresh_token,
+    expires_in,
+  };
+
+  const test = await fetch(url, {
+    method: "POST",
+    // body:
+  });
 
   await createSession(access_token, token_type, expires_in, refresh_token);
 

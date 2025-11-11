@@ -2,7 +2,8 @@ import "server-only";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-export const verifySession = async () => {
+export const verifySession = cache(async () => {
+  // TODO: verify session with backend
   const store = await cookies();
   const session = {};
 
@@ -17,27 +18,15 @@ export const verifySession = async () => {
 
   session.isAuth = true;
   session.access_token = `${token_type} ${access_token}`;
-  session.userID = "testUser";
+  session.userID = "testUser"; // replace with user fetched from backend db
 
   return session;
-};
-
-export const getUser = cache(async () => {
-  const { isAuth, userID } = await verifySession();
-
-  if (!isAuth) return null;
-
-  return userID;
 });
 
-export const getToken = cache(async () => {
-  const { isAuth, access_token } = await verifySession();
+export const authCheck = cache(async () => {
+  const { isAuth, userID } = await verifySession();
 
-  if (!isAuth || !access_token) return null;
+  if (!isAuth) return; // possibly redirect?
 
-  return {
-    headers: {
-      Authorization: access_token,
-    },
-  };
+  return userID;
 });

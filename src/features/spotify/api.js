@@ -1,24 +1,17 @@
-import { getToken } from "@/features/spotify/utils";
-import { verifySession } from "../auth/dal";
+const { SPOTIFY_URL, SPOTIFY_ALBUMS } = process.env;
+import { getPublicToken } from "@/features/spotify/utils";
 
 export async function getAlbums(id) {
-  const test = await verifySession();
-  const payload = await getToken();
-  console.log(test);
+  const payload = await getPublicToken();
 
-  return await fetch(
-    `${process.env.SPOTIFY_BASE_URL}/v1/albums/${id}`,
-    payload
-  ).then((res) => res.json());
+  return await fetch(`${SPOTIFY_ALBUMS}/${id}`, payload).then((res) =>
+    res.json()
+  );
 }
 
 export async function getCategories() {
-  const payload = await getToken();
-  return await fetch(
-    `${process.env.SPOTIFY_BASE_URL}/v1/browse/categories`,
-    payload
-  ).then((res) => res.json());
-
-  // http GET https://api.spotify.com/v1/browse/categories \
-  // Authorization:'Bearer 1POdFZRZbvb...qqillRxMr2z'
+  const payload = await getPublicToken();
+  return await fetch(`${SPOTIFY_URL}/browse/categories`, payload).then((res) =>
+    res.json()
+  );
 }

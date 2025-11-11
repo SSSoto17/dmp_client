@@ -2,6 +2,8 @@ import "server-only";
 import { cookies } from "next/headers";
 import { refreshToken } from "../spotify/utils";
 
+// will sessions be managed exclusively from the backend?
+
 export async function createSession(
   access_token,
   token_type,

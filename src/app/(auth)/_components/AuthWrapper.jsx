@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 export default async function AuthSession({ children }) {
   const user = await getUser();
 
-  if (!user) redirect("/api/auth/callback");
+  if (!user) redirect("/login");
 
   return children;
 }
